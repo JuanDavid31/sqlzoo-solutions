@@ -38,3 +38,31 @@ from world y
 where y.continent = x.continent
 group by continent)
 
+--8
+select continent, name
+from world x
+where
+name = (select name from world y where x.continent = y.continent order by name asc limit 1)
+
+--9
+
+select name, continent, population
+from world x
+where 
+(select count(continent) as countries
+from world y
+where y.continent = x.continent
+group by continent)
+=
+(select count(continent) as countries
+from world z
+where population <= 25000000
+and z.continent = x.continent
+group by continent)
+
+-- 10
+SELECT name, continent FROM world x
+  WHERE population >= ALL(SELECT population*3
+                         FROM world y
+                         WHERE x.continent = y.continent
+                         and y.name != x.name)
