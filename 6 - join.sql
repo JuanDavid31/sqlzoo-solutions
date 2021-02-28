@@ -73,3 +73,10 @@ JOIN goal ON matchid = id
 WHERE teamid = 'GER'
 group by mdate, matchid
 order by matchid
+
+-- 13
+SELECT mdate, team1, sum(CASE WHEN teamid = team1 THEN 1 ELSE 0 END) score1, team2, sum(case when teamid = team2 then 1 else 0 end) score2
+FROM game 
+JOIN goal ON matchid = id
+group by id, mdate, team1, team2
+order by mdate, matchid, team1, team2
